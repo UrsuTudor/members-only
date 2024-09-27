@@ -1,4 +1,12 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, only: [ :new, :create ]
+  def index
+    @posts = Post.all
+  end
+
+  def show
+    @post = Post.find(params[:id])
+  end
   def new
     @post = current_user.posts.new
   end
@@ -11,14 +19,6 @@ class PostsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def index
-    @posts = Post.all
-  end
-
-  def show
-    @post = Post.find(params[:id])
   end
 
   private
